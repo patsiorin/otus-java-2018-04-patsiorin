@@ -1,4 +1,10 @@
 **/.idea
 **.iml
 **/target
+
+# Maven
+**/log/
+**/target/
+
+# My notes
 notes/

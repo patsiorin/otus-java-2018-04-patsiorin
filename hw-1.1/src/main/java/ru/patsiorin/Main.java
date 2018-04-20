@@ -24,7 +24,6 @@ public class Main {
         if (args.length == 0) {
             throw new IllegalArgumentException("No arguments supplied");
         }
-
         Joiner joiner = Joiner.on("*");
         System.out.println(joiner.join(args));
     }

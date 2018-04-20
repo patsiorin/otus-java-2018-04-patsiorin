@@ -25,6 +25,9 @@
         <maven.compiler.target>1.8</maven.compiler.target>
         <guava.version>23.0</guava.version>
         <maven.plugins.version>3.0.0</maven.plugins.version>
+        <proguard-maven-plugin.version>2.0.14</proguard-maven-plugin.version>
+        <proguard-base.version>6.0.2</proguard-base.version>
+        <project.build.mainClass>ru.patsiorin.Main</project.build.mainClass>
     </properties>
 
     <dependencies>
@@ -57,13 +60,54 @@
                     <appendAssemblyId>false</appendAssemblyId>
                     <archive>
                         <manifest>
-                            <mainClass>ru.patsiorin.Main</mainClass>
+                            <mainClass>${project.build.mainClass}</mainClass>
                         </manifest>
                     </archive>
                     <descriptorRefs>
                         <descriptorRef>jar-with-dependencies</descriptorRef>
                     </descriptorRefs>
                 </configuration>
+            </plugin>
+
+            <plugin>
+                <groupId>com.github.wvengen</groupId>
+                <artifactId>proguard-maven-plugin</artifactId>
+                <version>${proguard-maven-plugin.version}</version>
+                <executions>
+                    <execution>
+                        <phase>package</phase>
+                        <goals>
+                            <goal>proguard</goal>
+                        </goals>
+                        <configuration>
+                            <obfuscate>true</obfuscate>
+                            <archive>
+                                <manifest>
+                                    <mainClass>${project.build.mainClass}</mainClass>
+                                </manifest>
+                            </archive>
+                            <proguardVersion>${proguard-base.version}</proguardVersion>
+                            <options>
+                                <options>-target 1.8</options>
+                                <option>-keep public class ${project.build.mainClass} { public static void main(java.lang.String[]); }</option>
+                                <option>-dontwarn com.google.**</option>
+                            </options>
+                            <includeDependency>true</includeDependency>
+                            <libs>
+                                <lib>${java.home}/lib/jce.jar</lib>
+                                <lib>${java.home}/lib/rt.jar</lib>
+                            </libs>
+                        </configuration>
+                    </execution>
+                </executions>
+                <dependencies>
+                    <dependency>
+                        <groupId>net.sf.proguard</groupId>
+                        <artifactId>proguard-base</artifactId>
+                        <version>${proguard-base.version}</version>
+                        <scope>runtime</scope>
+                    </dependency>
+                </dependencies>
             </plugin>
         </plugins>
     </build>

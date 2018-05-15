@@ -1,5 +1,4 @@
 Use 'mvn clean package' command to make a jar and then run it with one of the available Garbage Collector options:
-
 -XX:+UseG1GC
 -XX:+UseConcMarkSweepGC
 -XX:+UseParallelGC

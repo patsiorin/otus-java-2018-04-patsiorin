@@ -51,7 +51,8 @@ public class GCWatcher {
     }
 
     private static void startMemoryLeakAndWaitForOOM() {
-        Thread t = new Thread(new LeakingList());
+        LeakingList leakingList = new LeakingList();
+        Thread t = new Thread(leakingList);
         t.start();
         try {
             t.join();
@@ -59,5 +60,6 @@ public class GCWatcher {
             e.printStackTrace();
         }
         report.setEndTime(Instant.now());
+        report.setLoopCount(leakingList.loopCount);
     }
 }

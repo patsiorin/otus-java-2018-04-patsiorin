@@ -6,8 +6,9 @@ import java.util.List;
 public class LeakingList implements Runnable {
     private static final int INSERTIONS_NUMBER = 100_000;
     private static final int PAUSE_TIME_MILLIS = 200;
+    long loopCount;
 
-    List<String> leakingList = new ArrayList<String>();
+    private List<String> leakingList = new ArrayList<>();
 
     public void run() {
         int j = 0;
@@ -22,6 +23,7 @@ public class LeakingList implements Runnable {
                 }
 
                 j = leakingList.size();
+                loopCount++;
                 Thread.sleep(PAUSE_TIME_MILLIS);
             } while (true);
         } catch (OutOfMemoryError e) {

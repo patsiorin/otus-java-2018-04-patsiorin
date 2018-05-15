@@ -15,6 +15,7 @@ public class GCReport {
     private long oldGCCount;
     private long totalYoungTime;
     private long totalOldTime;
+    private long loopCount;
 
     private Instant startTime;
     private Instant endTime;
@@ -37,8 +38,8 @@ public class GCReport {
         double totalMinutes = totalSeconds / 60;
 
         StringBuilder report = new StringBuilder();
-        report.append("GC ALGORITHM: " + GCName +"\n");
-
+        report.append("GC ALGORITHM: ").append(GCName).append("\n");
+        report.append("Loop count from start to OOM: ").append(loopCount).append("\n");
         report.append(String.format("Time spent from start to OOM error: %.3fs\n", totalSeconds));
         report.append("YOUNG GEN\n");
         report.append(String.format("\tCollections #: %d\n", youngGCCount));
@@ -78,5 +79,9 @@ public class GCReport {
 
     public void print() {
         System.out.println(makeReport());
+    }
+
+    public void setLoopCount(long loopCount) {
+        this.loopCount = loopCount;
     }
 }

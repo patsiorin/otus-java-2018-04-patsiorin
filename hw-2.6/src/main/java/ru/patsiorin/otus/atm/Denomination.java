@@ -21,18 +21,12 @@ public enum Denomination {
      * @throws IllegalArgumentException if no denomination exists for the provided string.
      */
     public static Denomination newBankNote(String valueStr) {
-        switch (valueStr) {
-            case "100":
-                return ONE_HUNDRED;
-            case "500":
-                return FIVE_HUNDRED;
-            case "1000":
-                return ONE_THOUSAND;
-            case "5000":
-                return FIVE_THOUSAND;
-            default:
-                throw new IllegalArgumentException("Denomination does not exist");
+        for (Denomination d : values()) {
+            if (String.valueOf(d.value).equals(valueStr)) {
+                return d;
+            }
         }
+        throw new IllegalArgumentException("Denomination " + valueStr + "doesn not exist");
     }
 
     /**

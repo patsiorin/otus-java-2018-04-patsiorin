@@ -67,8 +67,8 @@ public class ATM {
      * @param bankNoteStr String represeting the domination, e.g. 100, 500 etc.
      * @throws IllegalArgumentException if the domination for the input is not defined
      */
-    public void depositNote(String bankNoteStr) {
-        Denomination note = Denomination.newBankNote(bankNoteStr);
+    public void depositNote(int nominal) {
+        Denomination note = Denomination.newBankNote(nominal);
         cassettes.get(note).depositNote();
     }
 

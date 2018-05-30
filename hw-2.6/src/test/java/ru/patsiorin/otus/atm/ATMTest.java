@@ -26,41 +26,41 @@ public class ATMTest {
 
     @Test
     public void testDepositBankNote() {
-        atm.depositNote("100");
+        atm.depositNote(100);
         assertEquals(100, atm.getAvailableCash());
-        atm.depositNote("500");
+        atm.depositNote(500);
         assertEquals(600, atm.getAvailableCash());
-        atm.depositNote("5000");
-        atm.depositNote("100");
+        atm.depositNote(5000);
+        atm.depositNote(100);
         assertEquals(5700, atm.getAvailableCash());
     }
 
     @Test(expected = IllegalArgumentException.class)
     public void testIllegalDenomination() {
-        atm.depositNote("300");
+        atm.depositNote(300);
     }
 
     @Test(expected = IllegalArgumentException.class)
     public void testRequestedSumGreaterThanAvailable() {
-        atm.depositNote("1000");
+        atm.depositNote(1000);
         atm.dispenseSum(1100);
     }
 
     @Test(expected = IllegalArgumentException.class)
     public void testSumCantBeDispensed() {
-        atm.depositNote("1000");
+        atm.depositNote(1000);
         for (int i = 0; i < 8; i++)
-            atm.depositNote("100");
+            atm.depositNote(100);
         atm.dispenseSum(900);
     }
 
     @Test
     public void testDispenseSum() {
         for(int i = 0; i < 4; i++) {
-            atm.depositNote("100");
-            atm.depositNote("500");
-            atm.depositNote("1000");
-            atm.depositNote("5000");
+            atm.depositNote(100);
+            atm.depositNote(500);
+            atm.depositNote(1000);
+            atm.depositNote(5000);
         }
 
         assertEquals(26400, atm.getAvailableCash());
@@ -79,18 +79,18 @@ public class ATMTest {
     @Test
     public void testDispensedDenominations() {
         for (int i = 0; i < 5; i++) {
-            atm.depositNote("100");
-            atm.depositNote("500");
-            atm.depositNote("1000");
-            atm.depositNote("5000");
+            atm.depositNote(100);
+            atm.depositNote(500);
+            atm.depositNote(1000);
+            atm.depositNote(5000);
         }
         assertEquals(33000, atm.getAvailableCash());
 
         Map<Denomination, Integer> expected = new HashMap<>();
-        expected.put(Denomination.newBankNote("5000"), 3);
-        expected.put(Denomination.newBankNote("1000"), 2);
-        expected.put(Denomination.newBankNote("500"), 1);
-        expected.put(Denomination.newBankNote("100"), 4);
+        expected.put(Denomination.newBankNote(5000), 3);
+        expected.put(Denomination.newBankNote(1000), 2);
+        expected.put(Denomination.newBankNote(500), 1);
+        expected.put(Denomination.newBankNote(100), 4);
 
         Map<Denomination, Integer> result = atm.dispenseSum(17900);
 

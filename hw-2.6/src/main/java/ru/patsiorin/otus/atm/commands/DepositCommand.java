@@ -14,7 +14,8 @@ public class DepositCommand implements Command {
         try {
             while (true) {
                 System.out.println(getCashString(atm));
-                atm.depositNote(nextLine());
+                int nominal = Integer.valueOf(nextLine());
+                atm.depositNote(nominal);
             }
         } catch (Exception e) {
             System.out.println(e.getMessage());

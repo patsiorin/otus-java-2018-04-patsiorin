@@ -16,17 +16,17 @@ public enum Denomination {
     /**
      * A factory method that creates denominations from user input strings.
      *
-     * @param valueStr user input
+     * @param nominal user input
      * @return Denomination
      * @throws IllegalArgumentException if no denomination exists for the provided string.
      */
-    public static Denomination newBankNote(String valueStr) {
+    public static Denomination newBankNote(int nominal) {
         for (Denomination d : values()) {
-            if (String.valueOf(d.value).equals(valueStr)) {
+            if (nominal == d.value) {
                 return d;
             }
         }
-        throw new IllegalArgumentException("Denomination " + valueStr + "doesn not exist");
+        throw new IllegalArgumentException("Denomination " + nominal + "does not exist");
     }
 
     /**

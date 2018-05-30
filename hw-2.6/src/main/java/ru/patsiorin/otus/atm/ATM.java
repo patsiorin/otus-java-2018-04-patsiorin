@@ -1,7 +1,5 @@
 package ru.patsiorin.otus.atm;
 
-import ru.patsiorin.otus.atm.commands.Command;
-
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -18,20 +16,6 @@ public class ATM {
     private void init() {
         for (Denomination denomination : Denomination.values()) {
             cassettes.put(denomination, new Cassette(denomination));
-        }
-    }
-
-    /**
-     * Starts the menu loop
-     */
-    public void start() {
-        menu();
-    }
-
-    private void menu() {
-        Command command = Command.getCommand("menu");
-        while(command.execute(this)) {
-            command = Command.getCommand(command.nextLine());
         }
     }
 
@@ -64,7 +48,7 @@ public class ATM {
      * Gets the domination enum from user input
      * and inserts it to the appropriate cassette.
      *
-     * @param bankNoteStr String represeting the domination, e.g. 100, 500 etc.
+     * @param nominal String represeting the domination, e.g. 100, 500 etc.
      * @throws IllegalArgumentException if the domination for the input is not defined
      */
     public void depositNote(int nominal) {
@@ -134,9 +118,5 @@ public class ATM {
 
     private Integer[] getIntegerArrayOfDenominationValues() {
         return Arrays.stream(Denomination.values()).map(Denomination::getValue).toArray(Integer[]::new);
-    }
-
-    public static void main(String[] args) {
-        new ATM().start();
     }
 }

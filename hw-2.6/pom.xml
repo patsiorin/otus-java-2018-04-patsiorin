@@ -56,7 +56,7 @@
                     <appendAssemblyId>false</appendAssemblyId>
                     <archive>
                         <manifest>
-                            <mainClass>ru.patsiorin.otus.atm.ATM</mainClass>
+                            <mainClass>ru.patsiorin.otus.atm.App</mainClass>
                         </manifest>
                     </archive>
                     <descriptorRefs>

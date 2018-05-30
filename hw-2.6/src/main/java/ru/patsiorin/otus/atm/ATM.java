@@ -9,7 +9,6 @@ import java.util.stream.Collectors;
  * ATM Emulator class.
  */
 public class ATM {
-    private int availableCash;
     private Map<Denomination, Cassette> cassettes = new TreeMap<>(Comparator.reverseOrder());
 
     public ATM() {
@@ -43,7 +42,9 @@ public class ATM {
      * @return cash sum that is currently in the ATM
      */
     public int getAvailableCash() {
-        return availableCash;
+        return cassettes.entrySet().stream()
+                .mapToInt(e -> e.getKey().getValue() * e.getValue().getNoteCount())
+                .sum();
     }
 
     /**
@@ -69,7 +70,6 @@ public class ATM {
     public void depositNote(String bankNoteStr) {
         Denomination note = Denomination.newBankNote(bankNoteStr);
         cassettes.get(note).depositNote();
-        availableCash += note.getValue();
     }
 
     /**
@@ -90,7 +90,7 @@ public class ATM {
     }
 
     private Map<Denomination, Integer> combineSumFromAvailableNotes(int sum) {
-        if (sum > availableCash) throw new IllegalArgumentException("Not enough cash");
+        if (sum > getAvailableCash()) throw new IllegalArgumentException("Not enough cash");
         int gcd = Util.gcd(getIntegerArrayOfDenominationValues());
         if (sum % gcd != 0) {
             throw new IllegalArgumentException("Request sum must be divisible by " + gcd);
@@ -121,7 +121,6 @@ public class ATM {
         Cassette cassette = cassettes.get(denomination);
         if (cassette.getNoteCount() - numberOfNotes >= 0) {
             cassette.dispenseNote(numberOfNotes);
-            availableCash -= denomination.getValue() * numberOfNotes;
         } else {
             throw new IllegalStateException("No notes of this denomination are available");
         }

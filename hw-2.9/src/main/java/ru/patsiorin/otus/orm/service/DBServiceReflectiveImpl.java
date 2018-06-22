@@ -2,6 +2,7 @@ package ru.patsiorin.otus.orm.service;
 
 import ru.patsiorin.otus.orm.db.ConnectionSingleton;
 import ru.patsiorin.otus.orm.db.Executor;
+import ru.patsiorin.otus.orm.db.QueryWithData;
 import ru.patsiorin.otus.orm.db.ReflectiveQueryBuilder;
 import ru.patsiorin.otus.orm.handlers.ReflectiveResultHandler;
 import ru.patsiorin.otus.orm.model.DataSet;
@@ -19,7 +20,7 @@ public class DBServiceReflectiveImpl implements DBService {
         try (Connection connection = ConnectionSingleton.getConnection()) {
             Executor executor = new Executor(connection);
             ReflectiveQueryBuilder<T> queryBuilder = new ReflectiveQueryBuilder<>(dataSet);
-            String query = queryBuilder.buildInsertOrUpdateQuery();
+            QueryWithData query = queryBuilder.buildInsertOrUpdateQuery();
             executor.execUpdate(query);
         } catch (SQLException e) {
             throw new RuntimeException(e);
@@ -32,7 +33,7 @@ public class DBServiceReflectiveImpl implements DBService {
         try (Connection connection = ConnectionSingleton.getConnection()) {
             Executor executor = new Executor(connection);
             ReflectiveQueryBuilder<T> queryBuilder = new ReflectiveQueryBuilder<>(dataSetClass);
-            String query = queryBuilder.formSelectQuery(id);
+            QueryWithData query = queryBuilder.formSelectQuery(id);
             return executor.execQuery(query, new ReflectiveResultHandler<>(dataSetClass));
         } catch (SQLException e) {
             throw new RuntimeException(e);

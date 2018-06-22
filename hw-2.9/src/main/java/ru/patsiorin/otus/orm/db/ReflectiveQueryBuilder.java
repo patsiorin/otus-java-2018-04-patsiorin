@@ -16,8 +16,8 @@ public class ReflectiveQueryBuilder<T extends DataSet> {
     private static final String CLASS_NAME_SUFFIX = "DataSet";
     private static final String JOINING_DELIMITER = ", ";
     private static final String INSERT_QUERY_TEMPLATE = "INSERT INTO `%s` (%s) VALUES (%s)";
-    private static final String UPDATE_QUERY_TEMPLATE = "UPDATE `%s` SET %s WHERE id = %d";
-    private static final String SELECT_QUERY_TEMPLATE = "SELECT * FROM `%s` WHERE id = %d";
+    private static final String UPDATE_QUERY_TEMPLATE = "UPDATE `%s` SET %s WHERE id = ?";
+    private static final String SELECT_QUERY_TEMPLATE = "SELECT * FROM `%s` WHERE id = ?";
 
     private final T dataSet;
     private final String tableName;
@@ -36,25 +36,31 @@ public class ReflectiveQueryBuilder<T extends DataSet> {
         columnsAndValuesPairs = null;
     }
 
-    public String buildInsertOrUpdateQuery() {
+    public QueryWithData buildInsertOrUpdateQuery() {
+        String queryString;
+        List<Object> values = columnsAndValuesPairs.stream()
+                .map(ColumnValuePair::getValue).collect(Collectors.toList());
         if (dataSet.getId() == 0) {
-            return buildInsertQuery();
+            queryString = buildInsertQuery();
         } else {
-            return buildUpdateQuery();
+            queryString = buildUpdateQuery();
+            values.add(dataSet.getId());
         }
+        return new QueryWithData(queryString, values.toArray());
     }
 
     private String buildUpdateQuery() {
         String columnsEqualsValues = columnsAndValuesPairs.stream()
                 .map(ColumnValuePair::getPairString).collect(Collectors.joining(JOINING_DELIMITER));
-        return String.format(UPDATE_QUERY_TEMPLATE, tableName, columnsEqualsValues, dataSet.getId());
+
+        return String.format(UPDATE_QUERY_TEMPLATE, tableName, columnsEqualsValues);
     }
 
     private String buildInsertQuery() {
         String columns = columnsAndValuesPairs.stream()
                 .map(ColumnValuePair::getColumnString).collect(Collectors.joining(JOINING_DELIMITER));
         String values = columnsAndValuesPairs.stream()
-                .map(ColumnValuePair::getValueString).collect(Collectors.joining(JOINING_DELIMITER));
+                .map(v -> "?").collect(Collectors.joining(JOINING_DELIMITER));
         return String.format(INSERT_QUERY_TEMPLATE, tableName, columns, values);
     }
 
@@ -80,9 +86,10 @@ public class ReflectiveQueryBuilder<T extends DataSet> {
         return className.substring(0, className.length() - CLASS_NAME_SUFFIX.length()).toLowerCase();
     }
 
-    public String formSelectQuery(long id) {
-        return String.format(SELECT_QUERY_TEMPLATE, tableName, id);
+    public QueryWithData formSelectQuery(long id) {
+        return new QueryWithData(String.format(SELECT_QUERY_TEMPLATE, tableName), new Object[]{id});
     }
+
 
     static class ColumnValuePair {
         private String column;
@@ -93,8 +100,8 @@ public class ReflectiveQueryBuilder<T extends DataSet> {
             this.value = value;
         }
 
-        String getValueString() {
-            return value instanceof String ? "'" + value.toString() + "'" : value.toString();
+        Object getValue() {
+            return value;
         }
 
         String getColumnString() {
@@ -102,7 +109,7 @@ public class ReflectiveQueryBuilder<T extends DataSet> {
         }
 
         String getPairString() {
-            return getColumnString() + "=" + getValueString();
+            return getColumnString() + " = ?" ;
         }
     }
 }

@@ -1,6 +1,6 @@
 package ru.patsiorin.otus.orm.service;
 
-import ru.patsiorin.otus.orm.db.ConnectionHelper;
+import ru.patsiorin.otus.orm.db.ConnectionSingleton;
 import ru.patsiorin.otus.orm.db.Executor;
 import ru.patsiorin.otus.orm.db.ReflectiveQueryBuilder;
 import ru.patsiorin.otus.orm.db.ReflectiveResultHandler;
@@ -15,7 +15,7 @@ public class DBServiceReflectiveImpl implements DBService {
     public <T extends DataSet> void save(T dataSet) {
         ReflectiveQueryBuilder<T> queryBuilder = new ReflectiveQueryBuilder<>(dataSet);
         String query = queryBuilder.buildInsertOrUpdateQuery();
-        Executor executor = new Executor(ConnectionHelper.getConnection());
+        Executor executor = new Executor(ConnectionSingleton.getConnection());
         executor.execUpdate(query);
     }
 
@@ -23,7 +23,7 @@ public class DBServiceReflectiveImpl implements DBService {
     public <T extends DataSet> T load(long id, Class<T> dataSetClass) {
         ReflectiveQueryBuilder<T> queryBuilder = new ReflectiveQueryBuilder<>(dataSetClass);
         String query = queryBuilder.formSelectQuery(id);
-        Executor executor = new Executor(ConnectionHelper.getConnection());
+        Executor executor = new Executor(ConnectionSingleton.getConnection());
         return executor.execQuery(query, new ReflectiveResultHandler<>(dataSetClass));
     }
 }

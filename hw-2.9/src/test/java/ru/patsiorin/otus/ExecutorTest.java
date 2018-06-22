@@ -4,7 +4,7 @@ import org.h2.tools.Server;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
-import ru.patsiorin.otus.orm.db.ConnectionHelper;
+import ru.patsiorin.otus.orm.db.ConnectionSingleton;
 import ru.patsiorin.otus.orm.service.DBService;
 import ru.patsiorin.otus.orm.service.DBServiceReflectiveImpl;
 import ru.patsiorin.otus.orm.model.UserDataSet;
@@ -34,7 +34,7 @@ public class ExecutorTest {
     }
 
     private void dropUserTable() {
-        Connection connection = ConnectionHelper.getConnection();
+        Connection connection = ConnectionSingleton.getConnection();
         try {
             Statement statement = connection.createStatement();
             statement.execute("DROP TABLE `user`");
@@ -44,7 +44,7 @@ public class ExecutorTest {
     }
 
     private void createUserTable() throws SQLException {
-        Connection connection = ConnectionHelper.getConnection();
+        Connection connection = ConnectionSingleton.getConnection();
         Statement statement = connection.createStatement();
         statement.execute("CREATE TABLE IF NOT EXISTS `user` (\n" +
                 "  id bigint(20) NOT NULL primary key auto_increment,\n" +

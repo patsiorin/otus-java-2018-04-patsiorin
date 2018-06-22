@@ -3,7 +3,7 @@ package ru.patsiorin.otus.orm.service;
 import ru.patsiorin.otus.orm.db.ConnectionSingleton;
 import ru.patsiorin.otus.orm.db.Executor;
 import ru.patsiorin.otus.orm.db.ReflectiveQueryBuilder;
-import ru.patsiorin.otus.orm.db.ReflectiveResultHandler;
+import ru.patsiorin.otus.orm.handlers.ReflectiveResultHandler;
 import ru.patsiorin.otus.orm.model.DataSet;
 
 import java.sql.Connection;

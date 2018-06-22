@@ -1,5 +1,6 @@
 package ru.patsiorin.otus.orm.db;
 
+import ru.patsiorin.otus.orm.handlers.ResultHandler;
 import ru.patsiorin.otus.orm.model.DataSet;
 
 import java.sql.*;
@@ -24,8 +25,7 @@ public class Executor {
     }
 
     public <T extends DataSet> T execQuery(String query, ResultHandler handler) {
-        try (Statement stmt = connection.createStatement()) {
-            ResultSet resultSet = stmt.executeQuery(query);
+        try (Statement stmt = connection.createStatement(); ResultSet resultSet = stmt.executeQuery(query)) {
             return (T) handler.handle(resultSet);
         } catch (SQLException e) {
             System.out.println("Query: " + query);

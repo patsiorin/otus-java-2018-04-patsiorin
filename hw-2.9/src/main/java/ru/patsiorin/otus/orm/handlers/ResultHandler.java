@@ -1,4 +1,4 @@
-package ru.patsiorin.otus.orm.db;
+package ru.patsiorin.otus.orm.handlers;
 
 import ru.patsiorin.otus.orm.model.DataSet;
 

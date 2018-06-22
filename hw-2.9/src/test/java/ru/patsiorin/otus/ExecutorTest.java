@@ -1,14 +1,13 @@
 package ru.patsiorin.otus;
 
-import org.h2.engine.User;
 import org.h2.tools.Server;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
-import ru.patsiorin.otus.orm.ConnectionHelper;
-import ru.patsiorin.otus.orm.DBService;
-import ru.patsiorin.otus.orm.DBServiceReflectiveImpl;
-import ru.patsiorin.otus.orm.UserDataSet;
+import ru.patsiorin.otus.orm.db.ConnectionHelper;
+import ru.patsiorin.otus.orm.service.DBService;
+import ru.patsiorin.otus.orm.service.DBServiceReflectiveImpl;
+import ru.patsiorin.otus.orm.model.UserDataSet;
 
 
 import java.sql.Connection;

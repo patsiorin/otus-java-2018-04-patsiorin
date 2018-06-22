@@ -1,4 +1,6 @@
-package ru.patsiorin.otus.orm;
+package ru.patsiorin.otus.orm.db;
+
+import ru.patsiorin.otus.orm.model.DataSet;
 
 import java.lang.reflect.Field;
 import java.util.ArrayList;

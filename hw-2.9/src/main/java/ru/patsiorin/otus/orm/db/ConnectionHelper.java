@@ -1,4 +1,4 @@
-package ru.patsiorin.otus.orm;
+package ru.patsiorin.otus.orm.db;
 
 import java.sql.Connection;
 import java.sql.DriverManager;

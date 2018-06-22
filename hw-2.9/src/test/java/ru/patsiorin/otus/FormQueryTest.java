@@ -1,8 +1,8 @@
 package ru.patsiorin.otus;
 
 import org.junit.Test;
-import ru.patsiorin.otus.orm.ReflectiveQueryBuilder;
-import ru.patsiorin.otus.orm.UserDataSet;
+import ru.patsiorin.otus.orm.db.ReflectiveQueryBuilder;
+import ru.patsiorin.otus.orm.model.UserDataSet;
 
 import static org.junit.Assert.assertEquals;
 

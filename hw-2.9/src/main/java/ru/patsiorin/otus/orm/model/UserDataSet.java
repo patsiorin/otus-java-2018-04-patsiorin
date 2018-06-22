@@ -1,4 +1,4 @@
-package ru.patsiorin.otus.orm;
+package ru.patsiorin.otus.orm.model;
 
 import java.util.Objects;
 

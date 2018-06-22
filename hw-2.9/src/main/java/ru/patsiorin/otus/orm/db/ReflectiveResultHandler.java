@@ -1,4 +1,6 @@
-package ru.patsiorin.otus.orm;
+package ru.patsiorin.otus.orm.db;
+
+import ru.patsiorin.otus.orm.model.DataSet;
 
 import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
@@ -7,7 +9,7 @@ import java.sql.SQLException;
 
 public class ReflectiveResultHandler<T extends DataSet> implements ResultHandler {
     private  Class<T> dataSetClass;
-    ReflectiveResultHandler(Class<T> aClass) {
+    public ReflectiveResultHandler(Class<T> aClass) {
         dataSetClass = aClass;
     }
 

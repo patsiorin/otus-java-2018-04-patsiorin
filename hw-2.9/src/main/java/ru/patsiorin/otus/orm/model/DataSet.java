@@ -1,4 +1,4 @@
-package ru.patsiorin.otus.orm;
+package ru.patsiorin.otus.orm.model;
 
 /**
  * Superclass of all DataSets containing id.
@@ -6,11 +6,11 @@ package ru.patsiorin.otus.orm;
 public abstract class DataSet {
     private final long id;
 
-    protected DataSet(long id) {
+    public DataSet(long id) {
         this.id = id;
     }
 
-    protected long getId() {
+    public long getId() {
         return id;
     }
 }

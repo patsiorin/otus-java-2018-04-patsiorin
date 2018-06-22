@@ -1,4 +1,6 @@
-package ru.patsiorin.otus.orm;
+package ru.patsiorin.otus.orm.service;
+
+import ru.patsiorin.otus.orm.model.DataSet;
 
 /**
  * Database service interface

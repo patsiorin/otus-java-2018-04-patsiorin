@@ -1,4 +1,6 @@
-package ru.patsiorin.otus.orm;
+package ru.patsiorin.otus.orm.db;
+
+import ru.patsiorin.otus.orm.model.DataSet;
 
 import java.sql.*;
 
@@ -8,11 +10,11 @@ import java.sql.*;
 public class Executor {
     private final Connection connection;
 
-    Executor(Connection connection) {
+    public Executor(Connection connection) {
         this.connection = connection;
     }
 
-    void execUpdate(String query) {
+    public void execUpdate(String query) {
         try (Statement stmt = connection.createStatement()) {
             stmt.execute(query);
         } catch (SQLException e) {
@@ -21,7 +23,7 @@ public class Executor {
         }
     }
 
-    <T extends DataSet> T execQuery(String query, ResultHandler handler) {
+    public <T extends DataSet> T execQuery(String query, ResultHandler handler) {
         try (Statement stmt = connection.createStatement()) {
             ResultSet resultSet = stmt.executeQuery(query);
             return (T) handler.handle(resultSet);

@@ -1,6 +1,5 @@
 package ru.patsiorin.otus;
 
-import org.h2.tools.Server;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -9,9 +8,7 @@ import ru.patsiorin.otus.orm.service.DBService;
 import ru.patsiorin.otus.orm.service.DBServiceReflectiveImpl;
 import ru.patsiorin.otus.orm.model.UserDataSet;
 
-
 import java.sql.Connection;
-import java.sql.DriverManager;
 import java.sql.SQLException;
 import java.sql.Statement;
 
@@ -19,23 +16,17 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotEquals;
 
 public class ExecutorTest {
-    private Server server;
-    private DBService dbService = new DBServiceReflectiveImpl();
-    private Connection connection;
+    private DBService dbService;
+
     @Before
     public void startUp() {
-        try {
-            server = Server.createTcpServer("-tcpPort", "9123", "-tcpAllowOthers").start();
-            connection = DriverManager.getConnection("jdbc:h2:mem:test");
-            createUserTable();
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
+        dbService = new DBServiceReflectiveImpl();
+        createUserTable();
+
     }
 
     private void dropUserTable() {
-        Connection connection = ConnectionSingleton.getConnection();
-        try {
+        try (Connection connection = ConnectionSingleton.getConnection()) {
             Statement statement = connection.createStatement();
             statement.execute("DROP TABLE `user`");
         } catch (SQLException e) {
@@ -43,14 +34,17 @@ public class ExecutorTest {
         }
     }
 
-    private void createUserTable() throws SQLException {
-        Connection connection = ConnectionSingleton.getConnection();
-        Statement statement = connection.createStatement();
-        statement.execute("CREATE TABLE IF NOT EXISTS `user` (\n" +
-                "  id bigint(20) NOT NULL primary key auto_increment,\n" +
-                "  name varchar(255),\n" +
-                "  age int(3)\n" +
-                ");");
+    private void createUserTable() {
+        try (Connection connection = ConnectionSingleton.getConnection()) {
+            Statement statement = connection.createStatement();
+            statement.execute("CREATE TABLE IF NOT EXISTS `user` (\n" +
+                    "  id bigint(20) NOT NULL primary key auto_increment,\n" +
+                    "  name varchar(255),\n" +
+                    "  age int(3)\n" +
+                    ");");
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
     }
 
     @Test
@@ -83,10 +77,9 @@ public class ExecutorTest {
         dbService.save(loadedUser);
         assertEquals(loadedUser, dbService.load(1, UserDataSet.class));
     }
+
     @After
     public void close() {
         dropUserTable();
-        server.stop();
     }
-
 }

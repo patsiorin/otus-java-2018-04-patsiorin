@@ -5,20 +5,32 @@ import java.sql.DriverManager;
 import java.sql.SQLException;
 
 public class ConnectionSingleton implements AutoCloseable {
-    private final Connection connection;
-    private static final ConnectionSingleton connectionSignleton = new ConnectionSingleton();
-    private ConnectionSingleton() {
+    private Connection connection;
+    private static ConnectionSingleton connectionSingleton;
+    private final String dbUrl = "jdbc:mysql://localhost:3306/orm?user=test&password=test&serverTimezone=UTC&useSSL=false";
+
+    static {
         try {
             DriverManager.registerDriver(new com.mysql.cj.jdbc.Driver());
-            String url = "jdbc:mysql://localhost:3306/orm?user=test&password=test&serverTimezone=UTC&useSSL=false";
-            connection = DriverManager.getConnection(url);
         } catch (SQLException e) {
-            throw new RuntimeException(e);
+            e.printStackTrace();
         }
     }
 
-    public static Connection getConnection() {
-        return connectionSignleton.connection;
+    private ConnectionSingleton() throws SQLException {
+        connect();
+    }
+
+    public static Connection getConnection() throws SQLException {
+        if (connectionSingleton == null) connectionSingleton = new ConnectionSingleton();
+        if (connectionSingleton.connection == null || connectionSingleton.connection.isClosed()) {
+            connectionSingleton.connect();
+        }
+        return connectionSingleton.connection;
+    }
+
+    private void connect() throws SQLException {
+        connection = DriverManager.getConnection(dbUrl);
     }
 
     @Override

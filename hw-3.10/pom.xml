@@ -9,10 +9,10 @@
     <version>1.0-SNAPSHOT</version>
 
     <name>
-        myORM
+       Hibernate ORM
     </name>
     <description>
-        Small ORM with reflection
+        Hibernate ORM homework
     </description>
 
     <developers>

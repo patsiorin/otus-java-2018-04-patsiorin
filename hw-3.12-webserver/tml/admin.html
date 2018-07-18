@@ -1,0 +1,45 @@
+<!doctype html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Admin Page</title>
+</head>
+<body>
+<h1>Admin page</h1>
+
+<table width="100%">
+    <caption>Cache params and state:</caption>
+    <tr>
+        <th>Name</th>
+        <th>Value</th>
+    </tr>
+    <tr>
+        <td>maxElements</td>
+        <td>${maxElements}</td>
+    </tr>
+    <tr>
+        <td>lifeTimeMs</td>
+        <td>${lifeTimeMs}</td>
+    </tr>
+    <tr>
+        <td>idleTimeMs</td>
+        <td>${idleTimeMs}</td>
+    </tr>
+    <tr>
+        <td>isEternal</td>
+        <td>${isEternal?string('yes', 'no')}</td>
+    </tr>
+    <tr>
+        <td>hits</td>
+        <td>${hits}</td>
+    </tr>
+    <tr>
+        <td>misses</td>
+        <td>${misses}</td>
+    </tr>
+</table>
+</body>
+</html>

@@ -1,0 +1,21 @@
+<beans xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns="http://www.springframework.org/schema/beans"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+	http://www.springframework.org/schema/beans/spring-beans-3.0.xsd" >
+
+    <bean id="dbService" class="ru.patsiorin.otus.orm.service.DBServiceHibernateImpl">
+    </bean>
+
+    <bean id="cache" class="ru.patsiorin.otus.orm.cache.CacheEngineSoftReference">
+        <constructor-arg index="0" value="10"/>
+        <constructor-arg index="1" value="20"/>
+        <constructor-arg index="2" value="30"/>
+        <constructor-arg index="3" value="false"/>
+    </bean>
+
+    <bean id="cachedService" class="ru.patsiorin.otus.orm.service.DBServiceCachedImpl">
+        <constructor-arg index="0" ref="dbService"/>
+        <constructor-arg index="1" ref="cache"/>
+    </bean>
+
+</beans>

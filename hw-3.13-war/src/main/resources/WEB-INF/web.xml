@@ -1,0 +1,15 @@
+<?xml version="1.0" ?>
+<web-app>
+    <display-name>HW-13-WAR</display-name>
+    <description>Standalone web app with DI</description>
+
+    <servlet>
+        <servlet-name>adminPage</servlet-name>
+        <servlet-class>ru.patsiorin.otus.servlet.AdminPageServlet</servlet-class>
+    </servlet>
+
+    <servlet-mapping>
+        <servlet-name>adminPage</servlet-name>
+        <url-pattern>/</url-pattern>
+    </servlet-mapping>
+</web-app>

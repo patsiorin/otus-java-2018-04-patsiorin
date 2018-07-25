@@ -3,6 +3,15 @@
     <display-name>HW-13-WAR</display-name>
     <description>Standalone web app with DI</description>
 
+    <context-param>
+        <param-name>contextConfigLocation</param-name>
+        <param-value>classpath:SpringBeans.xml</param-value>
+    </context-param>
+
+    <listener>
+        <listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>
+    </listener>
+
     <servlet>
         <servlet-name>adminPage</servlet-name>
         <servlet-class>ru.patsiorin.otus.servlet.AdminPageServlet</servlet-class>
@@ -12,4 +21,5 @@
         <servlet-name>adminPage</servlet-name>
         <url-pattern>/</url-pattern>
     </servlet-mapping>
+
 </web-app>

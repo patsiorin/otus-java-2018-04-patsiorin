@@ -13,7 +13,7 @@
         <constructor-arg index="3" value="false"/>
     </bean>
 
-    <bean id="cachedService" class="ru.patsiorin.otus.orm.service.DBServiceCachedImpl">
+    <bean id="service" class="ru.patsiorin.otus.orm.service.DBServiceCachedImpl">
         <constructor-arg index="0" ref="dbService"/>
         <constructor-arg index="1" ref="cache"/>
     </bean>
